@@ -2,13 +2,14 @@
 
 describe("Post Request", () => {
 let titleOfPosts = new Array();
+let randomTitle = Math.random().toString(36).substring(1) + Math.random().toString(36).substring(1);
 
     it("Create a new post via /posts api", () => {
         cy.request({
             method: "POST",
             url: "http://localhost:3000/posts",
             body: {
-                title: "Want to learn automation testing?",
+                title: randomTitle,
                 author: "Sarah Jones"
             }
         }).then(response => {
@@ -20,9 +21,8 @@ let titleOfPosts = new Array();
         cy.request({
             method: "GET",
             url: "http://localhost:3000/posts",
-            body: {
-                title: "Want to learn automation testing?",
-                author: "Sarah Jones"
+            headers: {
+                accept: "application/json"
             }
         }).then(response => {
             let body = JSON.parse(JSON.stringify(response.body));
@@ -31,7 +31,7 @@ let titleOfPosts = new Array();
             })
         }).then(() => {
             var latestPost = titleOfPosts[titleOfPosts.length-1]
-            expect(latestPost).to.eq("Want to learn automation testing?");
+            expect(latestPost).to.eq(randomTitle);
         })
     })
 });
