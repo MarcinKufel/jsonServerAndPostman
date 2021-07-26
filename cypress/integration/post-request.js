@@ -18,7 +18,7 @@ let titleOfPosts = new Array();
 
     it("Validate title of latest post", () => {
         cy.request({
-            method: "POST",
+            method: "GET",
             url: "http://localhost:3000/posts",
             body: {
                 title: "Want to learn automation testing?",
@@ -27,11 +27,11 @@ let titleOfPosts = new Array();
         }).then(response => {
             let body = JSON.parse(JSON.stringify(response.body));
             body.forEach(function(item) {
-                titleOfPosts.pust(item["title"]);
+                titleOfPosts.push(item["title"]);
             })
         }).then(() => {
-            let latestPost = titleOfPosts[titleOfPosts.length-1]
-            expect(latestPost).to.eq("Want to learn automation testing?")
+            var latestPost = titleOfPosts[titleOfPosts.length-1]
+            expect(latestPost).to.eq("Want to learn automation testing?");
         })
     })
 });
